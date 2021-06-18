@@ -1,4 +1,4 @@
-import base64
+import time
 import os
 
 from flask import jsonify, request, make_response
@@ -54,7 +54,7 @@ def img_list_post():
 
         data = request.get_json()['data']
 
-        name = random.randint(0, 9999)
+        name = time.time()
 
         path_img = os.path.join(PATH, f'{name}.jpg')
 
