@@ -14,7 +14,14 @@ def img_detail(name, methods=['GET']):
     path_img = os.path.join(PATH, f'{name}.jpg')
 
     if os.path.isfile(path_img):
-        return make_response(f'<img src="{path_img}">', 200)
+
+        with open(path_img, 'rb') as file:
+            img = file.read()
+
+        response = make_response(img)
+        response.headers['Content-Type'] = 'image/jpg'
+
+        return response, 200
     else:
         return make_response('Not Found', 404)
 
