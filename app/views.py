@@ -43,15 +43,16 @@ def img_list_get():
 @app.route('/image', methods=['POST'])
 def img_list_post():
 
-    if 'name' in request.json:
+    if 'data' in request.json:
 
-        data = request.get_json()['name']
-        decode = base64.b64decode(data)
-        name = decode.decode('utf-8')
+        data = request.get_json()['data']
+
+        name = random.randint(0, 9999)
 
         path_img = os.path.join(PATH, f'{name}.jpg')
 
-        open(path_img, 'w')
+        with open(path_img, 'w') as img:
+            img.write(data)
 
         return make_response('Created', 201)
     else:
