@@ -42,6 +42,7 @@ def img_list_get():
 
 @app.route('/image', methods=['POST'])
 def img_list_post():
+
     if 'name' in request.json:
 
         data = request.get_json()['name']
@@ -59,6 +60,7 @@ def img_list_post():
 
 @app.route('/image', methods=['DELETE'])
 def img_list_del():
+
     try:
         if 'name' in request.json:
             data = request.get_json()['name']
