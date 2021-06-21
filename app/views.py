@@ -1,3 +1,4 @@
+import base64
 import time
 import os
 
@@ -7,6 +8,7 @@ from app import app
 
 
 PATH = os.path.realpath('/images/')
+
 
 @app.route('/images/<path:name>.jpg')
 def img_detail(name, methods=['GET']):
@@ -50,15 +52,16 @@ def img_list_get():
 @app.route('/image', methods=['POST'])
 def img_list_post():
 
-    if 'data' in request.json:
+    if request.data:
 
-        data = request.get_json()['data']
+        data = request.data
+        data = base64.b64decode(data)
 
         name = time.time()
 
         path_img = os.path.join(PATH, f'{name}.jpg')
 
-        with open(path_img, 'w') as img:
+        with open(path_img, 'wb') as img:
             img.write(data)
 
         return make_response('Created', 201)
@@ -70,8 +73,8 @@ def img_list_post():
 def img_list_del():
 
     try:
-        if 'name' in request.json:
-            data = request.get_json()['name']
+        if request.data:
+            data = request.data.decode('utf-8')
             path_img = os.path.join(PATH, f'{data}.jpg')
 
             os.remove(path_img)
